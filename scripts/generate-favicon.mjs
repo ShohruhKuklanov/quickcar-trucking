@@ -24,6 +24,8 @@ const PADDING_RATIO = (() => {
 
 const BG = { r: 255, g: 255, b: 255, alpha: 1 };
 
+const CROP_MODE = (process.env.FAVICON_CROP_MODE ?? "largest").toLowerCase();
+
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
@@ -50,19 +52,113 @@ function bboxFromMask(maskBuffer, width, height) {
   return { minX, minY, maxX, maxY, width: maxX - minX + 1, height: maxY - minY + 1 };
 }
 
+function largestComponentBboxFromMask(maskBuffer, width, height) {
+  const visited = new Uint8Array(width * height);
+
+  const stackX = new Int32Array(width * height);
+  const stackY = new Int32Array(width * height);
+
+  let best = null;
+
+  for (let y = 0; y < height; y++) {
+    const rowOffset = y * width;
+    for (let x = 0; x < width; x++) {
+      const startIndex = rowOffset + x;
+      if (visited[startIndex] || maskBuffer[startIndex] === 0) continue;
+
+      let minX = x;
+      let minY = y;
+      let maxX = x;
+      let maxY = y;
+      let area = 0;
+
+      let sp = 0;
+      stackX[sp] = x;
+      stackY[sp] = y;
+      sp++;
+      visited[startIndex] = 1;
+
+      while (sp > 0) {
+        sp--;
+        const cx = stackX[sp];
+        const cy = stackY[sp];
+        area++;
+
+        if (cx < minX) minX = cx;
+        if (cy < minY) minY = cy;
+        if (cx > maxX) maxX = cx;
+        if (cy > maxY) maxY = cy;
+
+        // 4-connected neighbors
+        if (cx > 0) {
+          const ni = cy * width + (cx - 1);
+          if (!visited[ni] && maskBuffer[ni] !== 0) {
+            visited[ni] = 1;
+            stackX[sp] = cx - 1;
+            stackY[sp] = cy;
+            sp++;
+          }
+        }
+        if (cx + 1 < width) {
+          const ni = cy * width + (cx + 1);
+          if (!visited[ni] && maskBuffer[ni] !== 0) {
+            visited[ni] = 1;
+            stackX[sp] = cx + 1;
+            stackY[sp] = cy;
+            sp++;
+          }
+        }
+        if (cy > 0) {
+          const ni = (cy - 1) * width + cx;
+          if (!visited[ni] && maskBuffer[ni] !== 0) {
+            visited[ni] = 1;
+            stackX[sp] = cx;
+            stackY[sp] = cy - 1;
+            sp++;
+          }
+        }
+        if (cy + 1 < height) {
+          const ni = (cy + 1) * width + cx;
+          if (!visited[ni] && maskBuffer[ni] !== 0) {
+            visited[ni] = 1;
+            stackX[sp] = cx;
+            stackY[sp] = cy + 1;
+            sp++;
+          }
+        }
+      }
+
+      const bbox = { minX, minY, maxX, maxY, width: maxX - minX + 1, height: maxY - minY + 1 };
+      if (!best || area > best.area) {
+        best = { area, bbox };
+      }
+    }
+  }
+
+  return best?.bbox ?? null;
+}
+
 async function getTightCropRect(input) {
   const meta = await sharp(input).metadata();
   if (!meta.width || !meta.height) return null;
 
+  // Work on a smaller mask for speed; scale coordinates back up.
+  const targetMax = 512;
+  const scale = Math.min(1, targetMax / Math.max(meta.width, meta.height));
+  const scaledW = Math.max(1, Math.round(meta.width * scale));
+  const scaledH = Math.max(1, Math.round(meta.height * scale));
+
   const { data: mask, info } = await sharp(input)
     .ensureAlpha()
+    .resize(scaledW, scaledH)
     .extractChannel(3)
     // Keep antialiased edges; we just want to remove large empty padding.
     .threshold(8)
     .raw()
     .toBuffer({ resolveWithObject: true });
 
-  const bbox = bboxFromMask(mask, info.width, info.height);
+  const bbox =
+    CROP_MODE === "all" ? bboxFromMask(mask, info.width, info.height) : largestComponentBboxFromMask(mask, info.width, info.height);
   if (!bbox) return null;
 
   // Minimal padding so edges don't get clipped.
@@ -73,11 +169,19 @@ async function getTightCropRect(input) {
   const right = clamp(bbox.maxX + pad, 0, info.width - 1);
   const bottom = clamp(bbox.maxY + pad, 0, info.height - 1);
 
+  const xScale = meta.width / info.width;
+  const yScale = meta.height / info.height;
+
+  const scaledLeft = clamp(Math.floor(left * xScale), 0, meta.width - 1);
+  const scaledTop = clamp(Math.floor(top * yScale), 0, meta.height - 1);
+  const scaledRight = clamp(Math.ceil((right + 1) * xScale) - 1, 0, meta.width - 1);
+  const scaledBottom = clamp(Math.ceil((bottom + 1) * yScale) - 1, 0, meta.height - 1);
+
   const baseRect = {
-    left,
-    top,
-    width: right - left + 1,
-    height: bottom - top + 1,
+    left: scaledLeft,
+    top: scaledTop,
+    width: scaledRight - scaledLeft + 1,
+    height: scaledBottom - scaledTop + 1,
   };
 
   // Zoom in by shrinking the crop rect around its center.
@@ -163,6 +267,7 @@ async function main() {
         zoom: ZOOM,
         paddingRatio: PADDING_RATIO,
         background: "#ffffff",
+        cropMode: CROP_MODE,
       },
       null,
       2
@@ -171,7 +276,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });
