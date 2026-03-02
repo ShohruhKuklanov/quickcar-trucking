@@ -1,3 +1,5 @@
+# Quickcar Transport
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -6,6 +8,23 @@ First, run the development server:
 
 ```bash
 npm run dev
+
+## Quote Emails (Resend)
+
+The final Submit step sends:
+- An initial quote email to the customer (the email they entered)
+- A lead copy to your company inbox
+
+Set these environment variables (e.g. in `.env.local`):
+
+- `LEADS_EMAIL` (company inbox that receives leads)
+- `RESEND_API_KEY`
+- `RESEND_FROM` (a verified sender in Resend)
+
+Important:
+- To send emails *from* your own domain (e.g. `contact@quickcartrucking.com`), Resend requires verifying that domain in the Resend dashboard (Domains → Add domain → add DNS records).
+- If your domain is not verified yet, you can temporarily set `RESEND_FROM=onboarding@resend.dev` and rely on `replyTo` for replies, but for production sending you should verify your domain.
+
 # or
 yarn dev
 # or
@@ -16,7 +35,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
