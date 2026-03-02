@@ -4,13 +4,18 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const inputPath = process.argv[2] ?? "public/logo 1.png";
-const outputPath = process.argv[3] ?? "src/app/favicon.ico";
+const outputPaths = process.argv.slice(3);
+const resolvedOutputPaths =
+  outputPaths.length > 0 ? outputPaths : ["src/app/favicon.ico", "public/favicon.ico"];
 
 const SIZES = [16, 32, 48, 64, 128, 256];
 
 async function main() {
-  const outputDir = path.dirname(outputPath);
-  await mkdir(outputDir, { recursive: true });
+  await Promise.all(
+    resolvedOutputPaths.map(async (p) => {
+      await mkdir(path.dirname(p), { recursive: true });
+    })
+  );
 
   const pngBuffers = await Promise.all(
     SIZES.map(async (size) => {
@@ -26,14 +31,14 @@ async function main() {
   );
 
   const icoBuffer = await pngToIco(pngBuffers);
-  await writeFile(outputPath, icoBuffer);
+  await Promise.all(resolvedOutputPaths.map((p) => writeFile(p, icoBuffer)));
 
   // eslint-disable-next-line no-console
   console.log(
     JSON.stringify(
       {
         inputPath,
-        outputPath,
+        outputPaths: resolvedOutputPaths,
         sizes: SIZES,
       },
       null,
