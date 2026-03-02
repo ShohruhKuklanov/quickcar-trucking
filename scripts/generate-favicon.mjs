@@ -16,6 +16,14 @@ const ZOOM = (() => {
   return clamp(raw, 1, 3);
 })();
 
+const PADDING_RATIO = (() => {
+  const raw = Number.parseFloat(process.env.FAVICON_PADDING ?? "0.12");
+  if (!Number.isFinite(raw)) return 0.12;
+  return clamp(raw, 0, 0.3);
+})();
+
+const BG = { r: 255, g: 255, b: 255, alpha: 1 };
+
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
@@ -108,11 +116,34 @@ async function main() {
       let pipeline = sharp(inputPath).ensureAlpha();
       if (cropRect) pipeline = pipeline.extract(cropRect);
 
-      return pipeline
-        .resize(size, size, {
-          fit: "cover",
-          position: "centre",
+      const inner = Math.max(1, Math.round(size * (1 - 2 * PADDING_RATIO)));
+
+      const logoPng = await pipeline
+        .resize(inner, inner, {
+          fit: "contain",
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
+        .png()
+        .toBuffer();
+
+      const left = Math.floor((size - inner) / 2);
+      const top = Math.floor((size - inner) / 2);
+
+      return sharp({
+        create: {
+          width: size,
+          height: size,
+          channels: 4,
+          background: BG,
+        },
+      })
+        .composite([
+          {
+            input: logoPng,
+            left,
+            top,
+          },
+        ])
         .png()
         .toBuffer();
     })
@@ -130,6 +161,8 @@ async function main() {
         sizes: SIZES,
         cropRect,
         zoom: ZOOM,
+        paddingRatio: PADDING_RATIO,
+        background: "#ffffff",
       },
       null,
       2
