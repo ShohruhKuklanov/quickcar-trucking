@@ -11,14 +11,14 @@ const resolvedOutputPaths =
 const SIZES = [16, 32, 48, 64, 128, 256];
 
 const ZOOM = (() => {
-  const raw = Number.parseFloat(process.env.FAVICON_ZOOM ?? "2");
-  if (!Number.isFinite(raw)) return 2;
+  const raw = Number.parseFloat(process.env.FAVICON_ZOOM ?? "1");
+  if (!Number.isFinite(raw)) return 1;
   return clamp(raw, 1, 3);
 })();
 
 const PADDING_RATIO = (() => {
-  const raw = Number.parseFloat(process.env.FAVICON_PADDING ?? "0.12");
-  if (!Number.isFinite(raw)) return 0.12;
+  const raw = Number.parseFloat(process.env.FAVICON_PADDING ?? "0.02");
+  if (!Number.isFinite(raw)) return 0.02;
   return clamp(raw, 0, 0.3);
 })();
 
