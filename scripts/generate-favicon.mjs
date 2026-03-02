@@ -10,6 +10,12 @@ const resolvedOutputPaths =
 
 const SIZES = [16, 32, 48, 64, 128, 256];
 
+const ZOOM = (() => {
+  const raw = Number.parseFloat(process.env.FAVICON_ZOOM ?? "2");
+  if (!Number.isFinite(raw)) return 2;
+  return clamp(raw, 1, 3);
+})();
+
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
@@ -51,19 +57,40 @@ async function getTightCropRect(input) {
   const bbox = bboxFromMask(mask, info.width, info.height);
   if (!bbox) return null;
 
-  // Small padding so edges don't get clipped.
-  const pad = Math.max(2, Math.round(Math.min(info.width, info.height) * 0.01));
+  // Minimal padding so edges don't get clipped.
+  const pad = 0;
 
   const left = clamp(bbox.minX - pad, 0, info.width - 1);
   const top = clamp(bbox.minY - pad, 0, info.height - 1);
   const right = clamp(bbox.maxX + pad, 0, info.width - 1);
   const bottom = clamp(bbox.maxY + pad, 0, info.height - 1);
 
-  return {
+  const baseRect = {
     left,
     top,
     width: right - left + 1,
     height: bottom - top + 1,
+  };
+
+  // Zoom in by shrinking the crop rect around its center.
+  // This makes the favicon artwork occupy more of the final 16x16/32x32 area.
+  if (ZOOM <= 1) return baseRect;
+
+  const cx = baseRect.left + baseRect.width / 2;
+  const cy = baseRect.top + baseRect.height / 2;
+  const zoomW = baseRect.width / ZOOM;
+  const zoomH = baseRect.height / ZOOM;
+
+  const zLeft = clamp(Math.round(cx - zoomW / 2), 0, info.width - 1);
+  const zTop = clamp(Math.round(cy - zoomH / 2), 0, info.height - 1);
+  const zRight = clamp(Math.round(cx + zoomW / 2), 0, info.width - 1);
+  const zBottom = clamp(Math.round(cy + zoomH / 2), 0, info.height - 1);
+
+  return {
+    left: zLeft,
+    top: zTop,
+    width: Math.max(1, zRight - zLeft + 1),
+    height: Math.max(1, zBottom - zTop + 1),
   };
 }
 
@@ -83,8 +110,8 @@ async function main() {
 
       return pipeline
         .resize(size, size, {
-          fit: "contain",
-          background: { r: 0, g: 0, b: 0, alpha: 0 },
+          fit: "cover",
+          position: "centre",
         })
         .png()
         .toBuffer();
@@ -102,6 +129,7 @@ async function main() {
         outputPaths: resolvedOutputPaths,
         sizes: SIZES,
         cropRect,
+        zoom: ZOOM,
       },
       null,
       2
