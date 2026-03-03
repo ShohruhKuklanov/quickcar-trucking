@@ -153,7 +153,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing customer email" }, { status: 400 });
     }
 
-    const leadsEmail = requireEnv("LEADS_EMAIL") || "dispatch@quickcartrucking.com";
+    const leadsEmail = requireEnv("LEADS_EMAIL") || "henry@quickcartrucking.com";
     const resendApiKey = requireEnv("RESEND_API_KEY");
     const fromEmail = requireEnv("RESEND_FROM");
 
