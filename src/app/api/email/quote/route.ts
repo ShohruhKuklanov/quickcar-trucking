@@ -153,13 +153,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing customer email" }, { status: 400 });
     }
 
-    const leadsEmail = requireEnv("LEADS_EMAIL");
+    const leadsEmail = requireEnv("LEADS_EMAIL") || "dispatch@quickcartrucking.com";
     const resendApiKey = requireEnv("RESEND_API_KEY");
     const fromEmail = requireEnv("RESEND_FROM");
 
-    if (!leadsEmail || !resendApiKey || !fromEmail) {
+    if (!resendApiKey || !fromEmail) {
       return NextResponse.json(
-        { error: "Email is not configured. Set LEADS_EMAIL, RESEND_API_KEY, RESEND_FROM." },
+        { error: "Email is not configured. Set RESEND_API_KEY and RESEND_FROM (optional: LEADS_EMAIL)." },
         { status: 500 },
       );
     }
