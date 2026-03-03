@@ -8,6 +8,9 @@ First, run the development server:
 
 ```bash
 npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Quote Emails (Resend)
 
@@ -17,23 +20,15 @@ The final Submit step sends:
 
 Set these environment variables (e.g. in `.env.local`):
 
-- `LEADS_EMAIL` (company inbox that receives leads)
-- `RESEND_API_KEY`
+- `RESEND_API_KEY` (keep secret; do not commit)
 - `RESEND_FROM` (a verified sender in Resend)
+- `LEADS_EMAIL` (optional; company inbox that receives leads — defaults to `henry@quickcartrucking.com`)
 
 Important:
 - To send emails *from* your own domain (e.g. `contact@quickcartrucking.com`), Resend requires verifying that domain in the Resend dashboard (Domains → Add domain → add DNS records).
 - If your domain is not verified yet, you can temporarily set `RESEND_FROM=onboarding@resend.dev` and rely on `replyTo` for replies, but for production sending you should verify your domain.
 
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Security note: if an API key was pasted into chat or otherwise exposed, treat it as compromised — revoke it in Resend and generate a new key.
 
 You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
