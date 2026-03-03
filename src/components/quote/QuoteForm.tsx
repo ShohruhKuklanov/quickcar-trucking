@@ -533,6 +533,29 @@ export function QuoteForm({
         email,
       };
 
+      // Send email using the Resend-backed endpoint.
+      // If the email service is temporarily misconfigured/unavailable (5xx),
+      // still allow the user to view their quote result.
+      try {
+        const res = await fetch("/api/email/quote", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+          keepalive: true,
+        });
+
+        if (!res.ok && res.status < 500) {
+          const data = (await res.json().catch(() => null)) as { error?: string } | null;
+          setError(data?.error || "Could not send email. Please check your details and try again.");
+          setSubmitting(false);
+          return;
+        }
+      } catch {
+        // Ignore email network errors; still show quote result.
+      }
+
       window.sessionStorage.setItem("qc_quote_result", JSON.stringify(payload));
       router.push("/quote/result");
     } catch {
