@@ -22,7 +22,11 @@ const PADDING_RATIO = (() => {
   return clamp(raw, 0, 0.3);
 })();
 
-const BG = { r: 255, g: 255, b: 255, alpha: 1 };
+const BG_MODE = (process.env.FAVICON_BG ?? "transparent").toLowerCase();
+const BG =
+  BG_MODE === "white"
+    ? { r: 255, g: 255, b: 255, alpha: 1 }
+    : { r: 0, g: 0, b: 0, alpha: 0 };
 
 const CROP_MODE = (process.env.FAVICON_CROP_MODE ?? "largest").toLowerCase();
 
@@ -256,7 +260,6 @@ async function main() {
   const icoBuffer = await pngToIco(pngBuffers);
   await Promise.all(resolvedOutputPaths.map((p) => writeFile(p, icoBuffer)));
 
-  // eslint-disable-next-line no-console
   console.log(
     JSON.stringify(
       {
@@ -266,7 +269,7 @@ async function main() {
         cropRect,
         zoom: ZOOM,
         paddingRatio: PADDING_RATIO,
-        background: "#ffffff",
+        background: BG_MODE,
         cropMode: CROP_MODE,
       },
       null,
