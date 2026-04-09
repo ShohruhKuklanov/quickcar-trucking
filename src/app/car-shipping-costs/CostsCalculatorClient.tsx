@@ -191,10 +191,10 @@ export default function CostsCalculatorClient() {
         </div>
         <Link
           href={PHONE_HREF}
-          className="hidden items-center gap-2 rounded-xl border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30 sm:inline-flex"
+          className="hidden items-center gap-2 rounded-xl border border-black/10 bg-white px-3.5 py-2 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30 sm:inline-flex"
         >
           <PhoneCall className="h-4 w-4" />
-          Call Now
+          Call
         </Link>
       </div>
 
@@ -212,22 +212,6 @@ export default function CostsCalculatorClient() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="mt-6 rounded-3xl border border-black/6 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
-        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748b]">Estimated range</div>
-        <div className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-[#0f172a]">
-          {loadingEstimate
-            ? "Calculating..."
-            : estimate
-              ? `${formatMoney(estimate.low)} - ${formatMoney(estimate.high)}`
-              : "Enter your route to begin"}
-        </div>
-        <p className="mt-2 text-sm leading-6 text-[#475569]">
-          {estimate && miles
-            ? `${miles} estimated miles. Final pricing depends on exact carrier availability and timing.`
-            : "Transparent pricing with no hidden fees. Your exact quote is based on route, vehicle, and transport type."}
-        </p>
       </div>
 
       {submitted ? (
@@ -354,10 +338,10 @@ export default function CostsCalculatorClient() {
             ) : (
               <Link
                 href={PHONE_HREF}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30 sm:hidden"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30 sm:hidden"
               >
                 <PhoneCall className="h-4 w-4" />
-                Call Now
+                Call
               </Link>
             )}
 

@@ -141,10 +141,10 @@ export default function CarShippingCostsPage() {
                 </a>
                 <Link
                   href={PHONE_HREF}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white/80 px-6 py-3.5 text-sm font-semibold text-[#0f172a] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white/80 px-4 py-2.5 text-sm font-semibold text-[#0f172a] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)]"
                 >
                   <PhoneCall className="h-4 w-4" />
-                  Call Now
+                  Call
                 </Link>
               </div>
 
@@ -326,10 +326,10 @@ export default function CarShippingCostsPage() {
                 </a>
                 <Link
                   href={PHONE_HREF}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/16 bg-white/8 px-6 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-white/12"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/16 bg-white/8 px-4 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-white/12"
                 >
                   <PhoneCall className="h-4 w-4" />
-                  Call Now
+                  Call
                 </Link>
               </div>
             </div>
@@ -356,10 +356,10 @@ function InlineCTA() {
         </a>
         <Link
           href={PHONE_HREF}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30"
         >
           <PhoneCall className="h-4 w-4" />
-          Call Now
+          Call
         </Link>
       </div>
     </div>
