@@ -115,7 +115,7 @@ export default function AboutUsPage() {
     <main className="bg-white text-[#111827]">
       <section className="relative overflow-hidden border-b border-black/5 bg-[radial-gradient(circle_at_top_left,rgba(62,106,225,0.14),transparent_32%),radial-gradient(circle_at_top_right,rgba(17,24,39,0.08),transparent_28%),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="mx-auto flex max-w-6xl flex-col gap-14 px-6 py-20 sm:py-24 lg:flex-row lg:items-end lg:justify-between lg:py-28">
+        <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:py-28">
           <div className="max-w-3xl">
             <SectionEyebrow>Quickcar Trucking LLC</SectionEyebrow>
             <h1 className="mt-5 max-w-3xl text-5xl font-semibold tracking-[-0.04em] text-[#0f172a] sm:text-6xl lg:text-7xl">
@@ -141,23 +141,29 @@ export default function AboutUsPage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid w-full max-w-xl gap-4 sm:grid-cols-2">
+      <section className="relative -mt-8 z-10">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {metrics.map((metric) => {
               const Icon = metric.icon;
               return (
                 <div
                   key={metric.label}
-                  className="group rounded-2xl border border-black/6 bg-white/85 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_24px_70px_rgba(62,106,225,0.12)]"
+                  className="group min-w-60 flex-1 rounded-2xl border border-black/6 bg-white/92 px-4 py-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-[0_20px_48px_rgba(62,106,225,0.1)]"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary transition duration-300 group-hover:bg-primary group-hover:text-white">
-                      <Icon className="h-5 w-5" />
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-10 w-10 flex-none items-center justify-center rounded-full bg-primary/10 text-primary transition duration-300 group-hover:bg-primary group-hover:text-white">
+                      <Icon className="h-4 w-4" />
                     </span>
-                    <Sparkles className="h-4 w-4 text-[#94a3b8]" />
+                    <div className="min-w-0">
+                      <div className="text-2xl font-semibold tracking-[-0.03em] text-[#0f172a]">{metric.value}</div>
+                      <p className="mt-0.5 text-xs font-medium text-[#475569]">{metric.label}</p>
+                    </div>
+                    <Sparkles className="ml-auto h-3.5 w-3.5 flex-none text-[#94a3b8]" />
                   </div>
-                  <div className="mt-6 text-3xl font-semibold tracking-[-0.03em] text-[#0f172a]">{metric.value}</div>
-                  <p className="mt-2 text-sm text-[#475569]">{metric.label}</p>
                 </div>
               );
             })}
