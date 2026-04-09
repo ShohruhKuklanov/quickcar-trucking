@@ -167,8 +167,7 @@ export default function HowToShipACarPage() {
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent" />
 
         <div className="relative mx-auto max-w-6xl px-6 py-18 sm:py-22 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div className="max-w-3xl">
+          <div className="max-w-3xl">
               <div className="inline-flex rounded-full border border-white/70 bg-white/80 px-3 py-1 backdrop-blur">
                 <SectionEyebrow>Auto Transport Guide</SectionEyebrow>
               </div>
@@ -217,43 +216,46 @@ export default function HowToShipACarPage() {
                   </span>
                 ))}
               </div>
-            </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="relative">
-              <div className="absolute -right-6 top-8 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
-              <div className="relative rounded-4xl border border-white/70 bg-white/84 p-8 shadow-[0_30px_90px_rgba(15,23,42,0.1)] backdrop-blur sm:p-10">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary/80">
-                      A Complete Guide to Auto Transport
-                    </p>
-                    <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-[#0f172a]">
-                      Know the process before your vehicle moves.
-                    </h2>
-                  </div>
-                  <span className="hidden h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary sm:inline-flex">
-                    <SparkleBadge />
-                  </span>
+      <section className="relative -mt-8 z-10">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="relative mx-auto max-w-5xl">
+            <div className="absolute -right-6 top-8 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
+            <div className="relative rounded-4xl border border-white/70 bg-white/84 p-8 shadow-[0_30px_90px_rgba(15,23,42,0.1)] backdrop-blur sm:p-10">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary/80">
+                    A Complete Guide to Auto Transport
+                  </p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-[#0f172a]">
+                    Know the process before your vehicle moves.
+                  </h2>
                 </div>
+                <span className="hidden h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary sm:inline-flex">
+                  <SparkleBadge />
+                </span>
+              </div>
 
-                <p className="mt-6 text-base leading-7 text-[#475569] sm:text-lg">
-                  Shipping a car may seem complicated, but with the right process and a trusted partner,
-                  it becomes simple and efficient. At Quickcar Trucking LLC, we handle every step from
-                  scheduling to delivery so you do not have to worry.
-                </p>
+              <p className="mt-6 text-base leading-7 text-[#475569] sm:text-lg">
+                Shipping a car may seem complicated, but with the right process and a trusted partner,
+                it becomes simple and efficient. At Quickcar Trucking LLC, we handle every step from
+                scheduling to delivery so you do not have to worry.
+              </p>
 
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  <InfoStat
-                    icon={Clock3}
-                    title="Clear timeline"
-                    body="From booking through delivery, every stage is coordinated and explained."
-                  />
-                  <InfoStat
-                    icon={ShieldCheck}
-                    title="Protected shipment"
-                    body="Vehicles move with insured carriers and documented inspections."
-                  />
-                </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <InfoStat
+                  icon={Clock3}
+                  title="Clear timeline"
+                  body="From booking through delivery, every stage is coordinated and explained."
+                />
+                <InfoStat
+                  icon={ShieldCheck}
+                  title="Protected shipment"
+                  body="Vehicles move with insured carriers and documented inspections."
+                />
               </div>
             </div>
           </div>
