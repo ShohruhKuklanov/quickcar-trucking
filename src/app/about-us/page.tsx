@@ -113,11 +113,16 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
 export default function AboutUsPage() {
   return (
     <main className="bg-white text-[#111827]">
-      <section className="relative overflow-hidden border-b border-black/5 bg-[radial-gradient(circle_at_top_left,rgba(62,106,225,0.14),transparent_32%),radial-gradient(circle_at_top_right,rgba(17,24,39,0.08),transparent_28%),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
+      <section className="relative overflow-hidden border-b border-black/5">
+        <div className="absolute inset-0 bg-[url('/hero/about-hero-truck.png')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.86)_45%,rgba(255,255,255,0.72)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(62,106,225,0.12),transparent_30%),radial-gradient(circle_at_top_right,rgba(17,24,39,0.08),transparent_28%)]" />
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent" />
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:py-28">
-          <div className="max-w-3xl">
-            <SectionEyebrow>Quickcar Trucking LLC</SectionEyebrow>
+          <div className="relative max-w-3xl">
+            <div className="inline-flex rounded-full border border-white/60 bg-white/75 px-3 py-1 backdrop-blur">
+              <SectionEyebrow>Quickcar Trucking LLC</SectionEyebrow>
+            </div>
             <h1 className="mt-5 max-w-3xl text-5xl font-semibold tracking-[-0.04em] text-[#0f172a] sm:text-6xl lg:text-7xl">
               Built on Experience. Driven by Progress.
             </h1>
