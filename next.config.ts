@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/learn/who-we-are",
+        destination: "/about-us",
+        permanent: true,
+      },
+      {
         source: "/dealer-auto-car-shipping",
         destination: "/dealer-auto-transport",
         permanent: true,

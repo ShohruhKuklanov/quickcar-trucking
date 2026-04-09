@@ -87,7 +87,7 @@ function Navbar() {
                       : "bg-white"
             }`}
         >
-            <div className="container max-w-[1400px] mx-auto px-8 h-12 relative flex items-center justify-between">
+            <div className="container max-w-350 mx-auto px-8 h-12 relative flex items-center justify-between">
                 {/* LOGO */}
                 <Link href="/" className="logo flex items-center">
                     <span className="logoWrap" aria-hidden="true">
@@ -277,7 +277,7 @@ function Navbar() {
                                         {
                                             title: "Who we are",
                                             desc: "Our story & experience",
-                                            href: "/learn/who-we-are",
+                                            href: "/about-us",
                                         },
                                         {
                                             title: "Vision and mission",

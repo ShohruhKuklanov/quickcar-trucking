@@ -7,7 +7,7 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-background/10 bg-foreground text-background dark:border-foreground/10 dark:bg-background dark:text-foreground">
-      <div className="mx-auto max-w-[1300px] px-4 py-6">
+      <div className="mx-auto max-w-325 px-4 py-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="relative space-y-4">
             <div>
@@ -37,7 +37,7 @@ export function Footer() {
                     alt="FMCSA"
                     width={86}
                     height={22}
-                    className="h-[22px] w-auto opacity-90"
+                    className="h-5.5 w-auto opacity-90"
                   />
                 </div>
                 <p className="flex items-center gap-2 text-background/60 dark:text-foreground/60">
@@ -133,6 +133,7 @@ export function Footer() {
             <p className="text-sm font-semibold tracking-wide text-background/85 dark:text-foreground/85">Company</p>
             <nav aria-label="Footer navigation" className="flex flex-col gap-2 text-sm">
               {[
+                { label: "About Us", href: "/about-us" },
                 { label: "How It Works", href: "/#how" },
                 { label: "Services", href: "/#services" },
                 { label: "Pricing", href: "/#pricing" },
@@ -175,7 +176,7 @@ export function Footer() {
 
             <div className="space-y-1 text-sm text-background/55 dark:text-foreground/55">
               <div className="flex items-start gap-2">
-                <Clock className="mt-[2px] h-4 w-4 flex-none text-primary/80" aria-hidden="true" />
+                <Clock className="mt-0.5 h-4 w-4 flex-none text-primary/80" aria-hidden="true" />
                 <div>
                   <p>Mon–Sat: 8:00 AM–6:00 PM</p>
                   <p>Sun: 10:00 AM–3:00 PM</p>
@@ -183,7 +184,7 @@ export function Footer() {
               </div>
 
               <div className="flex items-start gap-2">
-                <MapPin className="mt-[2px] h-4 w-4 flex-none text-primary/80" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-4 w-4 flex-none text-primary/80" aria-hidden="true" />
                 <div>
                   <p>14 Harwood Ct, Suite 415 #1034</p>
                   <p>Scarsdale, NY 10583</p>
