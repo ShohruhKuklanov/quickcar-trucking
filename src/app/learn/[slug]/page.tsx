@@ -7,6 +7,7 @@ import { PricingSection } from "@/components/pricing/PricingSection";
 import { Reviews } from "@/components/reviews/Reviews";
 import { UsaMapSection } from "@/components/journey/UsaMapSection";
 import { Services } from "@/components/services/Services";
+import { ContactSupportPage } from "./ContactSupportPage";
 
 type LearnSlug =
   | "how-to-ship-a-car"
@@ -75,8 +76,8 @@ const LEARN_PAGES: Record<LearnSlug, { title: string; desc: string }> = {
     desc: "Real feedback from customers who shipped with Quickcar.",
   },
   "contact-us": {
-    title: "Contact us",
-    desc: "Reach a dispatcher and get help fast.",
+    title: "Contact Quickcar Trucking",
+    desc: "Have questions or need shipment assistance? Reach our team for quotes, status updates, and fast support.",
   },
   resources: {
     title: "Resources",
@@ -147,7 +148,7 @@ function PageShell({ title, desc, children }: { title: string; desc: string; chi
       {children}
 
       <section className="py-10 md:py-12">
-        <div className="mx-auto max-w-[1200px] px-6">
+        <div className="mx-auto max-w-300 px-6">
           <div className="rounded-2xl border border-black/5 bg-white p-6 md:p-8">
             <h2 className="text-lg font-semibold text-[#111827]">Ready to ship?</h2>
             <p className="mt-2 text-[#111827]/70">
@@ -220,11 +221,15 @@ export default async function LearnSlugPage({
     );
   }
 
+  if (slug === "contact-us") {
+    return <ContactSupportPage />;
+  }
+
   // Minimal informational pages (kept intentionally lean).
   return (
     <PageShell title={page.title} desc={page.desc}>
       <section className="py-10 md:py-12">
-        <div className="mx-auto max-w-[1200px] px-6">
+        <div className="mx-auto max-w-300 px-6">
           <div className="rounded-2xl border border-black/5 bg-white p-6 md:p-8 text-[#111827]">
             <p className="text-[#111827]/70">
               This page is available for quick reference. For the fastest pricing and dispatch options, start a quote.

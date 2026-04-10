@@ -354,23 +354,24 @@ function Navbar() {
                 </div>
 
                 {/* RIGHT ICONS */}
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3">
                     <button
-                        className="text-[#111827] transition hover:scale-110 hover:text-primary"
+                        className="hidden sm:inline-flex text-[#111827] transition hover:scale-110 hover:text-primary"
                         type="button"
                         aria-label="Change region"
                         title="Change region"
                     >
                         <Globe size={20} />
                     </button>
-                    <button
-                        className="text-[#111827] transition hover:scale-110 hover:text-primary"
-                        type="button"
-                        aria-label="Call us"
-                        title="Call us"
+                    <Link
+                        href="tel:+16467311022"
+                        className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-3 py-2 text-xs font-semibold text-[#111827] shadow-sm transition hover:-translate-y-0.5 hover:border-primary/20 hover:text-primary hover:shadow-md sm:px-3.5"
+                        aria-label="Call Quickcar Trucking"
                     >
-                        <Phone size={20} />
-                    </button>
+                        <Phone size={16} />
+                        <span className="hidden lg:inline">(646) 731-1022</span>
+                        <span className="lg:hidden">Call Now</span>
+                    </Link>
                 </div>
             </div>
         </header>
