@@ -12,7 +12,7 @@ import {
   Truck,
 } from "lucide-react";
 
-import CostsCalculatorClient from "@/app/car-shipping-costs/CostsCalculatorClient";
+import { QuoteForm } from "@/components/quote/QuoteForm";
 
 const CANONICAL = "https://quickcartrucking.com/car-shipping-costs";
 const PHONE_HREF = "tel:+16467311022";
@@ -161,9 +161,7 @@ export default function CarShippingCostsPage() {
               </div>
             </div>
 
-            <div id="instant-estimate">
-              <CostsCalculatorClient />
-            </div>
+            <QuoteForm instanceId="car-shipping-costs-hero" anchorId="instant-estimate" />
           </div>
         </div>
       </section>
