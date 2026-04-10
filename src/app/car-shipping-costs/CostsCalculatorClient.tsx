@@ -209,20 +209,20 @@ export default function CostsCalculatorClient() {
         </Link>
       </div>
 
-      <div className="mt-5 grid gap-2.5 sm:grid-cols-3">
+      <div className="mt-4 grid gap-2 sm:grid-cols-3">
         {[
           { id: 1, label: "Route" },
-          { id: 2, label: "Vehicle details" },
-          { id: 3, label: "Contact details" },
+          { id: 2, label: "Vehicle" },
+          { id: 3, label: "Contact" },
         ].map((current) => (
-          <div key={current.id} className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-[#64748b]">
+          <div key={current.id} className="space-y-1.5">
+            <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.12em] text-[#64748b]">
               <span>Step {current.id}</span>
               <span>{current.label}</span>
             </div>
-            <div className="h-2 rounded-full bg-[#e2e8f0]">
+            <div className="h-1.5 rounded-full bg-[#e2e8f0]">
               <div
-                className={`h-2 rounded-full bg-primary transition-all duration-300 ${step >= current.id ? "w-full" : "w-0"}`}
+                className={`h-1.5 rounded-full bg-primary transition-all duration-300 ${step >= current.id ? "w-full" : "w-0"}`}
               />
             </div>
           </div>
