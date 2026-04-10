@@ -26,6 +26,8 @@ type DatalistOption = { value: string; label?: string };
 type VehicleMakesResponse = { makes?: unknown };
 type VehicleModelsResponse = { models?: unknown };
 
+const PHONE_HREF = "tel:+16467311022";
+
 function isStateOnlyInput(raw: string) {
   const trimmed = raw.trim();
   if (!trimmed) return false;
@@ -575,11 +577,18 @@ export function QuoteForm({
           "bg-white/55 backdrop-blur-2xl border border-gray-200/60 rounded-2xl shadow-lg p-5 md:p-6 h-full" +
           (prefillFlash ? " ring-2 ring-blue-200 transition duration-500" : "")
         }
-        aria-label="Get a guaranteed transport quote"
+        aria-label="Get an instant quote"
       >
         <header>
-          <h2 className="text-2xl font-semibold text-gray-900">Get Your Guaranteed Transport Quote</h2>
-          <p className="text-sm text-gray-500 mt-1">Takes less than 60 seconds.</p>
+          <div className="flex items-start justify-between gap-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-blue-700">Get Your Instant Quote</p>
+            <a
+              href={PHONE_HREF}
+              className="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-900 transition hover:border-blue-300"
+            >
+              Call
+            </a>
+          </div>
 
           {serviceMeta ? (
             <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -873,7 +882,7 @@ export function QuoteForm({
                 type="submit"
                 disabled={submitting}
               >
-                {submitting ? "Preparing…" : step === 3 ? "Get My Guaranteed Quote" : "Continue →"}
+                {submitting ? "Preparing…" : step === 3 ? "Get My Quote" : "Continue →"}
               </button>
             </div>
 
@@ -891,11 +900,16 @@ export function QuoteForm({
         (useHeroVars ? "qh-card" : "qh-card qh-rootVars") +
         (prefillFlash ? " ring-2 ring-blue-500/70 transition duration-500" : "")
       }
-      aria-label="Get a guaranteed transport quote"
+      aria-label="Get an instant quote"
     >
-      <header className="qh-head">
-        <h2 className="qh-title">Get Your Guaranteed Transport Quote</h2>
-        <p className="qh-sub">Takes less than 60 seconds.</p>
+      <header className="qh-head flex items-start justify-between gap-3">
+        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-blue-700">Get Your Instant Quote</p>
+        <a
+          href={PHONE_HREF}
+          className="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-900 transition hover:border-blue-300"
+        >
+          Call
+        </a>
       </header>
 
       <form className="qh-form" onSubmit={onSubmit}>
@@ -1149,7 +1163,7 @@ export function QuoteForm({
 
           <div className="qh-ctaWrap">
             <button className="qh-cta" type="submit" disabled={submitting}>
-              {submitting ? "Preparing…" : step === 3 ? "Get My Guaranteed Quote" : "Continue →"}
+              {submitting ? "Preparing…" : step === 3 ? "Get My Quote" : "Continue →"}
             </button>
             <p className="qh-secure">Secure &amp; Confidential — Your information is never shared.</p>
           </div>
@@ -1162,6 +1176,11 @@ export function QuoteForm({
 export function StepProgress({ step, compact = false }: { step: number; compact?: boolean }) {
   const totalSteps = 3;
   const clamped = Math.max(1, Math.min(totalSteps, step));
+  const steps = [
+    { id: 1, label: "Route" },
+    { id: 2, label: "Vehicle" },
+    { id: 3, label: "Contact" },
+  ] as const;
 
   return (
     <div
@@ -1169,6 +1188,32 @@ export function StepProgress({ step, compact = false }: { step: number; compact?
       data-step={clamped}
       aria-label={`Step ${clamped} of ${totalSteps}`}
     >
+      <div className={compact ? "mb-4 grid gap-2 sm:grid-cols-3" : "mb-5 grid gap-3 sm:grid-cols-3"}>
+        {steps.map((item) => (
+          <div key={item.id} className={compact ? "space-y-1.5" : "space-y-2"}>
+            <div
+              className={
+                compact
+                  ? "flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.12em] text-[#64748b]"
+                  : "flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-[#64748b]"
+              }
+            >
+              <span>{`Step ${item.id}`}</span>
+              <span>{item.label}</span>
+            </div>
+            <div className={compact ? "h-1.5 rounded-full bg-[#e2e8f0]" : "h-2 rounded-full bg-[#e2e8f0]"}>
+              <div
+                className={
+                  compact
+                    ? `h-1.5 rounded-full bg-primary transition-all duration-300 ${clamped >= item.id ? "w-full" : "w-0"}`
+                    : `h-2 rounded-full bg-primary transition-all duration-300 ${clamped >= item.id ? "w-full" : "w-0"}`
+                }
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="qc-stepperRail">
         <div className="qc-stepperTrack" aria-hidden="true">
           <div className="qc-stepperFill" />
