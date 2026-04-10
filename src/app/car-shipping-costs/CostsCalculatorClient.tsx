@@ -6,7 +6,7 @@ import { ArrowRight, Check, PhoneCall } from "lucide-react";
 
 import { calculatePrice, normalizeStateToAbbr, type VehicleType } from "@/lib/pricingEngine";
 
-type Step = 1 | 2;
+type Step = 1 | 2 | 3;
 type VehicleCondition = "running" | "non-running";
 type TransportType = "open" | "enclosed";
 
@@ -128,6 +128,11 @@ export default function CostsCalculatorClient() {
   }
 
   function validateStepTwo() {
+    setError("");
+    return true;
+  }
+
+  function validateStepThree() {
     if (!firstName.trim() || !phone.trim()) {
       setError("Please enter your first name and phone number.");
       return false;
@@ -146,7 +151,13 @@ export default function CostsCalculatorClient() {
       return;
     }
 
-    if (!validateStepTwo()) return;
+    if (step === 2) {
+      if (!validateStepTwo()) return;
+      setStep(3);
+      return;
+    }
+
+    if (!validateStepThree()) return;
 
     setSubmitting(true);
     try {
@@ -181,12 +192,12 @@ export default function CostsCalculatorClient() {
   }
 
   return (
-    <section className="rounded-4xl border border-white/70 bg-white/92 p-6 shadow-[0_30px_90px_rgba(15,23,42,0.1)] backdrop-blur sm:p-8">
+    <section className="rounded-4xl border border-white/70 bg-white/92 p-5 shadow-[0_26px_72px_rgba(15,23,42,0.1)] backdrop-blur sm:p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/80">Get Your Instant Estimate</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[#0f172a] sm:text-3xl">
-            Calculate your price in a simple two-step flow.
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/80">Get Your Instant Quote</p>
+          <h2 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-[#0f172a] sm:text-2xl">
+            Calculate your price in a simple three-step flow.
           </h2>
         </div>
         <Link
@@ -198,16 +209,20 @@ export default function CostsCalculatorClient() {
         </Link>
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {[1, 2].map((current) => (
-          <div key={current} className="space-y-2">
+      <div className="mt-5 grid gap-2.5 sm:grid-cols-3">
+        {[
+          { id: 1, label: "Route" },
+          { id: 2, label: "Vehicle details" },
+          { id: 3, label: "Contact details" },
+        ].map((current) => (
+          <div key={current.id} className="space-y-2">
             <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-[#64748b]">
-              <span>Step {current}</span>
-              <span>{current === 1 ? "Route & vehicle" : "Contact details"}</span>
+              <span>Step {current.id}</span>
+              <span>{current.label}</span>
             </div>
             <div className="h-2 rounded-full bg-[#e2e8f0]">
               <div
-                className={`h-2 rounded-full bg-primary transition-all duration-300 ${step >= current ? "w-full" : "w-0"}`}
+                className={`h-2 rounded-full bg-primary transition-all duration-300 ${step >= current.id ? "w-full" : "w-0"}`}
               />
             </div>
           </div>
@@ -215,7 +230,7 @@ export default function CostsCalculatorClient() {
       </div>
 
       {submitted ? (
-        <div className="mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-900">
+        <div className="mt-5 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
           <div className="flex items-start gap-3">
             <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-white">
               <Check className="h-4 w-4" />
@@ -229,12 +244,12 @@ export default function CostsCalculatorClient() {
           </div>
         </div>
       ) : (
-        <form className="mt-6 space-y-5" onSubmit={onSubmit}>
+        <form className="mt-5 space-y-4" onSubmit={onSubmit}>
           {step === 1 ? (
-            <div className="grid gap-4">
+            <div className="grid gap-3.5">
               <Field label="Pickup Location">
                 <input
-                  className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                  className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                   placeholder="City, state or ZIP"
                   value={pickupLocation}
                   onChange={(event) => setPickupLocation(event.target.value)}
@@ -244,7 +259,7 @@ export default function CostsCalculatorClient() {
 
               <Field label="Delivery Location">
                 <input
-                  className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                  className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                   placeholder="City, state or ZIP"
                   value={deliveryLocation}
                   onChange={(event) => setDeliveryLocation(event.target.value)}
@@ -252,11 +267,15 @@ export default function CostsCalculatorClient() {
                 />
               </Field>
 
+              {loadingEstimate ? <p className="text-sm text-[#64748b]">Checking route details...</p> : null}
+            </div>
+          ) : step === 2 ? (
+            <div className="grid gap-3.5">
               <div className="grid gap-4 sm:grid-cols-3">
                 <Field label="Vehicle Type">
                   <select
                     aria-label="Vehicle Type"
-                    className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                    className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                     value={vehicleType}
                     onChange={(event) => setVehicleType(event.target.value as VehicleType)}
                   >
@@ -269,7 +288,7 @@ export default function CostsCalculatorClient() {
                 <Field label="Vehicle Condition">
                   <select
                     aria-label="Vehicle Condition"
-                    className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                    className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                     value={vehicleCondition}
                     onChange={(event) => setVehicleCondition(event.target.value as VehicleCondition)}
                   >
@@ -281,7 +300,7 @@ export default function CostsCalculatorClient() {
                 <Field label="Transport Type">
                   <select
                     aria-label="Transport Type"
-                    className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                    className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                     value={transportType}
                     onChange={(event) => setTransportType(event.target.value as TransportType)}
                   >
@@ -290,12 +309,17 @@ export default function CostsCalculatorClient() {
                   </select>
                 </Field>
               </div>
+
+              <div className="rounded-3xl border border-black/6 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-3.5 text-sm leading-6 text-[#475569]">
+                {pickupLocation} to {deliveryLocation}
+                {estimate ? ` is currently estimating at ${formatMoney(estimate.low)} - ${formatMoney(estimate.high)}.` : "."}
+              </div>
             </div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-3.5">
               <Field label="First Name">
                 <input
-                  className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                  className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                   placeholder="Your first name"
                   value={firstName}
                   onChange={(event) => setFirstName(event.target.value)}
@@ -305,7 +329,7 @@ export default function CostsCalculatorClient() {
 
               <Field label="Phone">
                 <input
-                  className="h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                  className="h-11 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-[#0f172a] outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                   placeholder="(555) 123-4567"
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
@@ -313,7 +337,7 @@ export default function CostsCalculatorClient() {
                 />
               </Field>
 
-              <div className="rounded-3xl border border-black/6 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-sm leading-6 text-[#475569]">
+              <div className="rounded-3xl border border-black/6 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-3.5 text-sm leading-6 text-[#475569]">
                 You are requesting a personalized estimate for {vehicleType === "pickup" ? "a truck" : `a ${vehicleType}`}
                 {vehicleCondition === "non-running" ? ", non-running," : ", running,"} on an {transportType} trailer.
                 {estimate ? ` Current range: ${formatMoney(estimate.low)} - ${formatMoney(estimate.high)}.` : ""}
@@ -324,12 +348,12 @@ export default function CostsCalculatorClient() {
           {error ? <p className="text-sm font-medium text-rose-600">{error}</p> : null}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-            {step === 2 ? (
+            {step > 1 ? (
               <button
                 type="button"
                 onClick={() => {
                   setError("");
-                  setStep(1);
+                  setStep((step - 1) as Step);
                 }}
                 className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold text-[#0f172a] transition hover:border-primary/30"
               >
@@ -350,7 +374,7 @@ export default function CostsCalculatorClient() {
               disabled={submitting}
               className="group inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(62,106,225,0.22)] transition duration-300 hover:-translate-y-0.5 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {step === 1 ? "Continue to Contact" : submitting ? "Submitting..." : "Get My Quote"}
+              {step < 3 ? "Continue" : submitting ? "Submitting..." : "Get My Quote"}
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </button>
           </div>
