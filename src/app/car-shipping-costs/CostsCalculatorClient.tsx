@@ -196,9 +196,6 @@ export default function CostsCalculatorClient() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/80">Get Your Instant Quote</p>
-          <h2 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-[#0f172a] sm:text-2xl">
-            Calculate your price in a simple three-step flow.
-          </h2>
         </div>
         <Link
           href={PHONE_HREF}
