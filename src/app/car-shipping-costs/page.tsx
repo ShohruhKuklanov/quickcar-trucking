@@ -121,7 +121,7 @@ export default function CarShippingCostsPage() {
               </div>
 
               <h1 className="mt-5 text-5xl font-semibold tracking-[-0.05em] text-[#0f172a] sm:text-6xl lg:text-7xl">
-                Car Shipping Costs
+                Get Your Instant Quote
                 <span className="mt-2 block text-[clamp(1.7rem,3.2vw,3rem)] font-medium tracking-[-0.04em] text-[#334155]">
                   Calculate Your Estimate
                 </span>
