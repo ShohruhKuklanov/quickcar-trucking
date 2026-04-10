@@ -167,7 +167,7 @@ export default function CarShippingCostsPage() {
       </section>
 
       <section className="relative">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl px-6 pb-20 pt-0 md:pb-24 md:pt-0">
           <div className="max-w-3xl">
             <SectionEyebrow>How Car Shipping Costs Are Calculated</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[#0f172a] sm:text-4xl">
@@ -201,7 +201,7 @@ export default function CarShippingCostsPage() {
       </section>
 
       <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl px-6 pb-20 pt-0 md:pb-24 md:pt-0">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start">
             <div>
               <SectionEyebrow>Estimated Price Ranges</SectionEyebrow>
@@ -255,7 +255,7 @@ export default function CarShippingCostsPage() {
       </section>
 
       <section className="relative">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl px-6 pb-20 pt-0 md:pb-24 md:pt-0">
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <div>
               <SectionEyebrow>How to Lower Your Shipping Cost</SectionEyebrow>
