@@ -1184,7 +1184,7 @@ export function StepProgress({ step, compact = false }: { step: number; compact?
 
   return (
     <div
-      className={compact ? "qc-stepper qc-stepper--compact relative mb-5" : "qc-stepper relative mb-10"}
+      className={compact ? "relative mb-5" : "relative mb-10"}
       data-step={clamped}
       aria-label={`Step ${clamped} of ${totalSteps}`}
     >
@@ -1212,23 +1212,6 @@ export function StepProgress({ step, compact = false }: { step: number; compact?
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="qc-stepperRail">
-        <div className="qc-stepperTrack" aria-hidden="true">
-          <div className="qc-stepperFill" />
-        </div>
-
-        <div className="qc-stepperNodes" aria-hidden="true">
-          {[1, 2, 3].map((idx) => {
-            const state = idx < clamped ? "done" : idx === clamped ? "active" : "todo";
-            return (
-              <div key={idx} className={`qc-stepperNode qc-stepperNode--${state}`} data-index={idx}>
-                <div className="qc-stepperNodeCircle">{state === "done" ? <CheckIcon className="qc-stepperNodeIcon" /> : null}</div>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
