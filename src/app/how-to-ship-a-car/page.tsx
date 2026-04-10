@@ -161,7 +161,7 @@ export default function HowToShipACarPage() {
   return (
     <main className="bg-white text-[#0f172a]">
       <section className="relative overflow-hidden border-b border-black/5 bg-[#f8fbff]">
-        <div className="absolute inset-0 bg-[url('/hero/herobg.avif')] bg-cover bg-center opacity-[0.18]" />
+        <div className="absolute inset-0 bg-[url('/hero/herobg.avif')] bg-cover bg-center opacity-[0.1]" />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.96)_8%,rgba(255,255,255,0.86)_44%,rgba(248,250,252,0.78)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(62,106,225,0.14),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(15,23,42,0.08),transparent_28%)]" />
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent" />
